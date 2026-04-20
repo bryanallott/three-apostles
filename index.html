@@ -1,0 +1,337 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --ocean:#0C447C;--ocean-light:#E6F1FB;--sand:#FAC775;--sand-dark:#BA7517;
+    --ink:#2C2C2A;--mist:#F1EFE8;--slate:#5F5E5A;
+  }
+  .page{font-family:'DM Sans',sans-serif;color:var(--ink);background:transparent}
+  .hero{
+    background:linear-gradient(160deg,#042C53 0%,#0C447C 55%,#185FA5 100%);
+    padding:3.5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.02) 30px,rgba(255,255,255,0.02) 60px)
+  }
+  .hero-tag{
+    font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;
+    color:var(--sand);text-transform:uppercase;margin-bottom:1rem;position:relative
+  }
+  .hero h1{
+    font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,5.5rem);
+    color:#fff;line-height:0.95;letter-spacing:1px;position:relative;margin-bottom:0.4rem
+  }
+  .hero h1 span{color:var(--sand)}
+  .hero-sub{
+    font-family:'Lora',serif;font-style:italic;color:rgba(255,255,255,0.7);
+    font-size:1.05rem;margin-bottom:2rem;position:relative
+  }
+  .hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+  .badge{
+    background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.25);
+    color:rgba(255,255,255,0.85);font-size:11px;letter-spacing:1px;
+    padding:5px 14px;border-radius:20px
+  }
+  .wave{width:100%;height:48px;display:block;color:#F1EFE8}
+  .section{padding:2.5rem 1.5rem;max-width:720px;margin:0 auto}
+  .section-title{
+    font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--ocean);
+    letter-spacing:1px;margin-bottom:0.3rem
+  }
+  .section-sub{font-family:'Lora',serif;font-style:italic;color:var(--slate);font-size:0.9rem;margin-bottom:1.5rem}
+  .rudder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:2rem}
+  .rudder-card{
+    border:0.5px solid var(--color-border-tertiary,#ddd);border-radius:12px;
+    padding:1.1rem 1rem;background:var(--color-background-primary,#fff);cursor:pointer;transition:all 0.18s
+  }
+  .rudder-card:hover{border-color:#185FA5;transform:translateY(-2px)}
+  .rudder-card.selected{border:2px solid var(--ocean);background:var(--ocean-light)}
+  .rudder-card h3{font-size:0.9rem;font-weight:500;color:var(--ink);margin-bottom:4px}
+  .rudder-card .price{font-size:1.3rem;font-weight:500;color:var(--ocean);margin-bottom:4px}
+  .rudder-card .desc{font-size:0.75rem;color:var(--slate);line-height:1.5}
+  .rudder-card .tag{
+    display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;
+    margin-top:6px;background:#E6F1FB;color:#0C447C
+  }
+  .rudder-card.selected .tag{background:#185FA5;color:#fff}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form-grid.full{grid-template-columns:1fr}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:12px;font-weight:500;color:var(--slate);letter-spacing:0.5px;text-transform:uppercase}
+  .field input,.field select,.field textarea{
+    font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;
+    border:0.5px solid var(--color-border-tertiary,#ddd);border-radius:8px;
+    background:var(--color-background-primary,#fff);color:var(--ink);
+    transition:border-color 0.15s;outline:none
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3px rgba(24,95,165,0.1)}
+  .field textarea{resize:vertical;min-height:80px}
+  .divider{height:0.5px;background:var(--color-border-tertiary,#eee);margin:1.5rem 0}
+  .bank-box{
+    background:var(--ocean-light,#E6F1FB);border:0.5px solid #B5D4F4;
+    border-radius:12px;padding:1.25rem 1.5rem
+  }
+  .bank-title{
+    font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--ocean);
+    letter-spacing:1px;margin-bottom:1rem;display:flex;align-items:center;gap:8px
+  }
+  .bank-title::before{content:'';width:18px;height:18px;border-radius:50%;background:var(--ocean);display:inline-block}
+  .bank-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid #B5D4F4}
+  .bank-row:last-child{border-bottom:none}
+  .bank-label{font-size:12px;color:#185FA5;font-weight:500}
+  .bank-val{font-size:13px;color:var(--ocean);font-weight:500;font-family:monospace}
+  .bank-note{font-size:11px;color:#185FA5;margin-top:10px;font-style:italic;line-height:1.5}
+  .submit-btn{
+    width:100%;margin-top:1.5rem;padding:15px;font-family:'Bebas Neue',sans-serif;
+    font-size:1.3rem;letter-spacing:2px;color:#fff;background:var(--ocean);
+    border:none;border-radius:12px;cursor:pointer;transition:all 0.18s
+  }
+  .submit-btn:hover{background:#042C53;transform:translateY(-1px)}
+  .submit-btn:active{transform:scale(0.98)}
+  .team{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+    padding:1.5rem;background:var(--mist);border-top:0.5px solid #D3D1C7
+  }
+  .member{text-align:center}
+  .avatar{
+    width:48px;height:48px;border-radius:50%;background:var(--ocean);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--sand);
+    margin:0 auto 5px
+  }
+  .member-name{font-size:11px;font-weight:500;color:var(--slate)}
+  .member-role{font-size:10px;color:#888}
+  .success-msg{
+    display:none;text-align:center;padding:2.5rem 1.5rem;
+    font-family:'Lora',serif;color:var(--ocean)
+  }
+  .success-msg h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;margin-bottom:0.5rem}
+  .ref-num{font-size:0.85rem;color:var(--slate);margin-top:8px;font-family:monospace}
+  .required{color:#E24B4A}
+  .model-check{display:flex;gap:6px;align-items:center;margin-top:4px}
+  .model-check input[type=radio]{accent-color:var(--ocean)}
+  .qty-row{display:flex;align-items:center;gap:10px}
+  .qty-btn{
+    width:30px;height:30px;border-radius:50%;border:0.5px solid var(--color-border-tertiary,#ddd);
+    background:var(--color-background-primary,#fff);font-size:1rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--ocean);transition:all 0.15s
+  }
+  .qty-btn:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+  .qty-val{font-size:1.1rem;font-weight:500;min-width:24px;text-align:center}
+</style>
+
+<div class="page">
+  <div class="hero">
+    <p class="hero-tag">Cape Town, South Africa</p>
+    <h1>Three<br><span>Apostles</span><br>Marine</h1>
+    <p class="hero-sub">Carbon · Fibreglass · 3D Print Repair & Fabrication</p>
+    <div class="hero-badges">
+      <span class="badge">Surfski Rudders</span>
+      <span class="badge">Ocean Craft Repair</span>
+      <span class="badge">Composite Fabrication</span>
+      <span class="badge">3D Printing</span>
+    </div>
+  </div>
+
+  <svg class="wave" viewBox="0 0 1440 48" preserveAspectRatio="none" fill="currentColor">
+    <path d="M0,48 L0,20 Q180,0 360,20 Q540,40 720,20 Q900,0 1080,20 Q1260,40 1440,20 L1440,48 Z"/>
+  </svg>
+
+  <div class="section">
+    <p class="section-title">Order a Surfski Rudder</p>
+    <p class="section-sub">Custom-made in carbon fibre & fibreglass — built for South African waters</p>
+
+    <p style="font-size:12px;font-weight:500;color:var(--slate);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">Select model <span class="required">*</span></p>
+    <div class="rudder-grid" id="rudderGrid">
+      <div class="rudder-card selected" data-model="Standard Carbon" data-price="1850">
+        <h3>Standard Carbon</h3>
+        <div class="price">R 1,850</div>
+        <p class="desc">Layered carbon fibre, high stiffness. Suits most surfski hulls.</p>
+        <span class="tag">Most popular</span>
+      </div>
+      <div class="rudder-card" data-model="Performance Race" data-price="2650">
+        <h3>Performance Race</h3>
+        <div class="price">R 2,650</div>
+        <p class="desc">Uni-directional carbon lay-up, optimised for elite racing.</p>
+        <span class="tag">Race spec</span>
+      </div>
+      <div class="rudder-card" data-model="Hybrid Glass/Carbon" data-price="1350">
+        <h3>Hybrid Glass / Carbon</h3>
+        <div class="price">R 1,350</div>
+        <p class="desc">Fibreglass body with carbon spine. Durable & budget-friendly.</p>
+        <span class="tag">Great value</span>
+      </div>
+      <div class="rudder-card" data-model="Custom Spec" data-price="0">
+        <h3>Custom Spec</h3>
+        <div class="price">POA</div>
+        <p class="desc">Bespoke layup, shape or dimensions. We'll quote you directly.</p>
+        <span class="tag">Get a quote</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem">
+      <div class="field" style="margin-bottom:10px">
+        <label>Quantity <span class="required">*</span></label>
+        <div class="qty-row">
+          <button class="qty-btn" id="qtyDown">−</button>
+          <span class="qty-val" id="qtyVal">1</span>
+          <button class="qty-btn" id="qtyUp">+</button>
+          <span style="font-size:13px;color:var(--slate);margin-left:6px" id="totalDisplay">Total: R 1,850</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="field">
+        <label>First name <span class="required">*</span></label>
+        <input type="text" id="fname" placeholder="e.g. Sipho">
+      </div>
+      <div class="field">
+        <label>Last name <span class="required">*</span></label>
+        <input type="text" id="lname" placeholder="e.g. Ndlovu">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-bottom:12px">
+      <div class="field">
+        <label>Email address <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+    </div>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" id="phone" placeholder="+27 82 000 0000">
+      </div>
+      <div class="field">
+        <label>Surfski brand / model</label>
+        <input type="text" id="boat" placeholder="e.g. Epic V10 Sport">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-bottom:12px">
+      <div class="field">
+        <label>Delivery address</label>
+        <input type="text" id="address" placeholder="Street, City, Province, Postal code">
+      </div>
+    </div>
+    <div class="form-grid full" style="margin-bottom:0">
+      <div class="field">
+        <label>Special notes or custom dimensions</label>
+        <textarea id="notes" placeholder="Any specific requirements, colour preferences, deadline, etc."></textarea>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="bank-box">
+      <div class="bank-title">EFT Payment Details</div>
+      <div class="bank-row">
+        <span class="bank-label">Account name</span>
+        <span class="bank-val">Three Apostles Marine (Pty) Ltd</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Bank</span>
+        <span class="bank-val">First National Bank</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Account number</span>
+        <span class="bank-val">62 000 000 000</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Branch code</span>
+        <span class="bank-val">250 655</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Account type</span>
+        <span class="bank-val">Cheque / Current</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-label">Reference</span>
+        <span class="bank-val" id="payRef">TAM-ORDER</span>
+      </div>
+      <p class="bank-note">Please use your surname + order number as the payment reference. Once payment is made, send proof of payment to <strong>orders@threeapostlesmarine.co.za</strong> — production begins on receipt of POP.</p>
+    </div>
+
+    <button class="submit-btn" id="submitBtn">Submit Order</button>
+  </div>
+
+  <div class="success-msg" id="successMsg">
+    <div style="font-size:2.5rem;margin-bottom:1rem">⚓</div>
+    <h2>Order Received!</h2>
+    <p>Thank you — we'll be in touch within 24 hours to confirm your order and share your invoice.</p>
+    <p class="ref-num" id="refOut"></p>
+  </div>
+
+  <div class="team">
+    <div class="member">
+      <div class="avatar">PM</div>
+      <div class="member-name">Pete</div>
+      <div class="member-role">Composites & Repair</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 1rem">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.85rem;color:var(--slate);letter-spacing:2px">Pete · Moses · Jack</span>
+      <span style="font-size:10px;color:#aaa;margin-top:2px">Cape Town, Western Cape</span>
+    </div>
+    <div class="member">
+      <div class="avatar">MO</div>
+      <div class="member-name">Moses</div>
+      <div class="member-role">Fabrication Lead</div>
+    </div>
+    <div class="member">
+      <div class="avatar">JK</div>
+      <div class="member-name">Jack</div>
+      <div class="member-role">3D Print & Design</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let selectedModel = 'Standard Carbon';
+let selectedPrice = 1850;
+let qty = 1;
+
+const cards = document.querySelectorAll('.rudder-card');
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    cards.forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedModel = card.dataset.model;
+    selectedPrice = parseInt(card.dataset.price) || 0;
+    updateTotal();
+  });
+});
+
+function updateTotal() {
+  const total = selectedPrice * qty;
+  const disp = selectedPrice === 0 ? 'Total: POA' : 'Total: R ' + total.toLocaleString('en-ZA');
+  document.getElementById('totalDisplay').textContent = disp;
+  document.getElementById('payRef').textContent = 'TAM-' + selectedModel.replace(/\s+/g,'-').toUpperCase().substring(0,10);
+}
+
+document.getElementById('qtyUp').addEventListener('click', () => {
+  if(qty < 20) qty++;
+  document.getElementById('qtyVal').textContent = qty;
+  updateTotal();
+});
+document.getElementById('qtyDown').addEventListener('click', () => {
+  if(qty > 1) qty--;
+  document.getElementById('qtyVal').textContent = qty;
+  updateTotal();
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if(!fname || !lname || !email) {
+    alert('Please fill in your name and email address to continue.');
+    return;
+  }
+  const ref = 'TAM-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('refOut').textContent = 'Order reference: ' + ref;
+  document.getElementById('payRef').textContent = lname.toUpperCase() + '-' + ref;
+  document.querySelector('.section').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+});
+</script>
